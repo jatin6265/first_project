@@ -1,3 +1,8 @@
-module.exports.home=function(req,res) {
-    return res.end('<h1>Express is up for Codeial</h1>');
-}
+module.exports.home = function (req, res) {
+  console.log(req.cookies);
+  res.cookie('jatin',567
+  )
+  return res.render("home", {
+    title: "home",
+  });
+};
