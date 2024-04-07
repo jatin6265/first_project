@@ -13,7 +13,7 @@ passport.use(
     async function (email, password, done) {
       try {
         // Find the user and establish identity (assuming plain text password)
-        const user = await User.findOne({ email:email });
+        const user = await User.findOne({ email: email });
         if (!user || user.password != password) {
           console.log("Invalid Username/Email or password");
           return done(null, false);
@@ -42,5 +42,27 @@ passport.deserializeUser(function (id, done) {
     return done(null, user);
   });
 });
+
+// check if user is authenticated
+passport.checkAuthentication = function (req, res, next) {
+  // if the user is signed in, then pass on the request to the next function (controller's action)
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  // user is not sign-in
+  return res.redirect("/users/sign-in");
+};
+
+passport.setAuthenticateduser = function (req, res, next) {
+  if (req.isAuthenticated()) {
+    // req.res conatains the current signed in user from the session cookie and we  just  sendig this to the local for the views
+    res.locals.user = req.user;
+  }
+};
+
+// Your existing Passport configuration...
+
+// Export checkAuthentication and setAuthenticatedUser as properties of the passport object
+
 
 module.exports = passport;

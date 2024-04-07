@@ -14,6 +14,7 @@ const User = require("./models/user"); // Assuming you have a User model defined
 // Middleware setup
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+// app.use(passport.setAuthenticatedUser);
 app.use(express.static("assets"));
 app.use(expressLayouts);
 
