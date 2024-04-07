@@ -33,14 +33,14 @@ passport.serializeUser(function (user, done) {
 });
 
 // Deserializing the user (retrieving user from ID)
-passport.deserializeUser(function (id, done) {
-  User.findById(id, function (err, user) {
-    if (err) {
-      console.error("Error in finding user:", err);
-      return done(err);
-    }
+passport.deserializeUser(async function (id, done) {
+  try {
+    const user = await User.findById(id);
     return done(null, user);
-  });
+  } catch {
+    console.error("Error in finding user:", err);
+    return done(err);
+  }
 });
 
 // check if user is authenticated
@@ -57,12 +57,12 @@ passport.setAuthenticateduser = function (req, res, next) {
   if (req.isAuthenticated()) {
     // req.res conatains the current signed in user from the session cookie and we  just  sendig this to the local for the views
     res.locals.user = req.user;
+    return next();
   }
 };
 
 // Your existing Passport configuration...
 
 // Export checkAuthentication and setAuthenticatedUser as properties of the passport object
-
 
 module.exports = passport;
