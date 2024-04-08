@@ -1,0 +1,39 @@
+$font-family: sans-serif, "Arial";
+
+header {
+  background-color: #c8c8ff;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  //   height: 100px;
+  .left-logo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: 800;
+    height: 100%;
+    font-family: $font-family;
+  }
+  .right-signin {
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    ul {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      list-style: none;
+      li {
+        padding: 10px;
+        a {
+          text-decoration: none;
+          font-size: 1.3rem;
+          font-family: $font-family;
+        }
+      }
+    }
+  }
+}

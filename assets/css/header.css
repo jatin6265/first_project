@@ -1,0 +1,30 @@
+header {
+  background-color: #c8c8ff;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center; }
+  header .left-logo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: 800;
+    height: 100%;
+    font-family: sans-serif, "Arial"; }
+  header .right-signin {
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; }
+    header .right-signin ul {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      list-style: none; }
+      header .right-signin ul li {
+        padding: 10px; }
+        header .right-signin ul li a {
+          text-decoration: none;
+          font-size: 1.3rem;
+          font-family: sans-serif, "Arial"; }

@@ -1,0 +1,50 @@
+.form-conatiner-signup {
+  height: 550px;
+  width: 550px;
+  background-color: #fbfbfb;
+  margin: auto;
+  padding: 40px;
+  border: 0.5px solid #d1cccc; }
+  .form-conatiner-signup div {
+    width: 80%;
+    height: 100%;
+    padding: 3px;
+    padding-left: 30px;
+    padding-right: 30px;
+    margin: auto;
+    background-color: #fbfbfb;
+    border: 0.5px solid #d1cccc; }
+    .form-conatiner-signup div h1 {
+      height: 10%;
+      color: #191818; }
+    .form-conatiner-signup div form {
+      height: 90%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: flex-start; }
+      .form-conatiner-signup div form button {
+        background-color: #0f87ff;
+        font-family: sans-serif, "Arial";
+        height: 45px;
+        width: 100%;
+        font-size: 1.2rem;
+        border: none;
+        color: #fbf8f8; }
+      .form-conatiner-signup div form p {
+        font-size: 1.2rem;
+        font-family: sans-serif, "Arial";
+        color: #393939; }
+      .form-conatiner-signup div form label {
+        font-size: 1.3rem;
+        font-family: sans-serif, "Arial";
+        font-weight: 100;
+        color: #393939; }
+      .form-conatiner-signup div form input {
+        font-family: sans-serif, "Arial";
+        height: 45px;
+        width: 100%;
+        font-size: 1.2rem; }
+      .form-conatiner-signup div form span a {
+        text-decoration: none;
+        color: #0f87ff; }

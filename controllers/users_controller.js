@@ -10,6 +10,10 @@ module.exports.profile = function (req, res) {
 
 // render the signUp page
 module.exports.signUp = function (req, res) {
+  if (req.isAuthenticated()) {
+    return res.redirect("/users/profile");
+  }
+
   return res.render("user_sign_up", {
     title: "Codeial | Sign Up",
   });
@@ -17,6 +21,9 @@ module.exports.signUp = function (req, res) {
 
 // render the signIn page
 module.exports.signIn = function (req, res) {
+  if (req.isAuthenticated()) {
+    return res.redirect("/users/profile");
+   }
   return res.render("user_sign_in", {
     title: "Codeial | Sign Up",
   });
@@ -59,5 +66,20 @@ module.exports.create = async function (req, res) {
 
 //  Sign In  and create a session
 module.exports.createSession = function (req, res) {
-   return res.redirect('/')
+  return res.redirect("/");
 };
+
+// Assuming this is your logout route handler in users_controller.js
+
+module.exports.destroySession = function(req, res) {
+  // Logout the user
+  req.logout(function(err) {
+      if(err) {
+          console.log("Error in logging out:", err);
+          return;
+      }
+      // Redirect or respond as needed
+      return res.redirect('/');
+  });
+};
+
