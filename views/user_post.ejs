@@ -13,7 +13,7 @@
   </form>
 </section>
 
-<div>
+<!-- <div>
   <ul>
 <% if (locals.user) { %> 
     <% if (mypost && mypost.length > 0 && locals.user){ %> 
@@ -33,4 +33,33 @@
 <p id="no-post"><%= add %></p>
 <% } %>
   </ul>
+</div> -->
+
+<div>
+  <ul>
+<% if (locals.user) { %> 
+    <% if (mypost && mypost.length > 0 && locals.user){ %> 
+     <%for(let i of mypost){%>
+        <li id="post">
+        <div class="deatail">
+          <p><%= i.content%></p>
+         <small><p>Posted by <%= i.user.name  %></p></small>
+        
+
+         <%const timestampString =i.createdAt.toString();
+            const timestampParts = timestampString.split(" ");
+            const date = timestampParts.slice(0, 4).join(" "); 
+            const time = timestampParts.slice(4, 5).join(":");%>
+        <small><p>Time :<%=time%> Date :<%=date%></p></small>
+      </div>
+    </li>
+    <%}%> 
+    <% } else{ %>
+        <p id="no-post">You havent Posted Yet</p>
+        <% } %> 
+<% } else{ %>
+<p id="no-post"><%= add %></p>
+<% } %>
+  </ul>
 </div>
+
