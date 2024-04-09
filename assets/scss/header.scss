@@ -1,8 +1,8 @@
 $font-family: sans-serif, "Arial";
 
 header {
-  background-color: #c8c8ff;
-  padding: 20px;
+  background-color: #1e8fff;
+  padding: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -15,6 +15,10 @@ header {
     font-weight: 800;
     height: 100%;
     font-family: $font-family;
+    a{
+      color: azure;
+      text-decoration:none;
+    }
   }
   .right-signin {
     height: 100%;
@@ -32,6 +36,7 @@ header {
           text-decoration: none;
           font-size: 1.3rem;
           font-family: $font-family;
+          color: azure;
         }
       }
     }

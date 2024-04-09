@@ -1,2 +1,19 @@
 <h1>Codial/<%=title %></h1>
- 
+
+
+
+<div>
+  <ul>
+    <% if (posts && posts.length > 0) { %> <%for(let i of posts){%>
+    <li id="post">
+      <div class="deatail">
+        <p>Posted by <%=i.user.name%></p>
+        <p><%= i._doc.content%></p>
+        <p>Time :<%= i.time%> Date :<%=i.date%></p>
+      </div>
+    </li>
+    <%}%> <% } else{ %>
+    <p id="no-post"><%= add %></p>
+    <% } %>
+  </ul>
+</div>
