@@ -13,9 +13,11 @@ const db = require("./config/mongoose");
 const User = require("./models/user");
 const MongoStore = require("connect-mongo");
 const sassMiddleware=require('node-sass-middleware')
+const flash=require('connect-flash');
+const customMiddleware=require('./config/middleware')
 // Middleware setup
 
-app.use(sassMiddleware({
+app.use(sassMiddleware({ 
   src:'./assets/scss',
   dest:'./assets/css', 
   debug:true,
@@ -50,6 +52,8 @@ app.use(passport.session());
 
 // Set authenticated user middleware
 app.use(passport.setAuthenticateduser);
+app.use(flash());
+app.use(customMiddleware.setFlash)
 
 // View engine setup
 app.set("view engine", "ejs");

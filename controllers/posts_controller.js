@@ -1,15 +1,35 @@
+
+// Controller function to create a new post
 const Post = require("../models/post");
 const Comment = require("../models/comment");
 
 // Controller function to create a new post
-module.exports.create = async function (req, res) {
+module.exports.create = async function(req, res) {
   try {
     // Create a new post with the provided content and user ID
-    const newUser = await Post.create({
+    let post = await Post.create({
       content: req.body.content,
       user: req.user._id,
     });
-    // Redirect the user back
+
+    // Now, find the post we just created to populate the user field.
+    post = await Post.findById(post._id)
+      .populate("user")
+      .populate({
+        path: "comments",
+        populate: {
+          path: "user",
+        },
+      });
+
+    if (req.xhr) {
+      return res.status(200).json({
+        data: {
+          post: post,
+        },
+        message: 'Post Created!'
+      });
+    }
     return res.redirect("back");
   } catch (err) {
     // Handle errors if any
@@ -18,12 +38,14 @@ module.exports.create = async function (req, res) {
   }
 };
 
+
 // Controller function to render user posts or a message if not logged in
 module.exports.uploadPost = async function (req, res) {
   try {
     if (req.isAuthenticated()) {
       // If user is logged in, find their posts and render them
       Post.find({ user: req.user._id })
+        .sort('-createdAt')
         .populate("user")
         .populate({
           path: "comments",
@@ -73,6 +95,17 @@ module.exports.destroy = async function (req, res) {
       try {
         await Post.deleteOne({ _id: post.id }); // Using deleteOne method
         await Comment.deleteMany({ post: req.params.id });
+
+        if(req.xhr ){
+          console.log('hey jatin')
+          return res.status(200).json({
+            data:{
+              post_id:post.id
+            }, 
+            message:"post deleted"
+          })
+        }
+
         console.log("Post and comments deleted");
 
         // Redirect back

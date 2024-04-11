@@ -1,61 +1,61 @@
+<li id="post-<%=post._id%>">
+  <div class="detail">
+    <p>
+      <small>Posted by <%= post.user.name %></small><br />
+      <% let createdAt = new Date(post.createdAt);
+      let date = createdAt.toLocaleDateString();
+      let time = createdAt.toLocaleTimeString(); %>
+      <%= post.content %>
+      <br /><small>Time:- <%= time %> Date:- <%= date %></small>
 
-<ul>
-    <% if (posts && posts.length > 0) { %> <% /* Check if there are posts */ %>
-      <% for(let post of posts) { %> <% /* Iterate over each post */ %>
-        <li id="post">
-          <div class="detail">
-            <p>
-              <small>Posted by <%= post.user.name %></small><br />
-              <% /* Extract timestamp details from createdAt */ %>
-              <% const timestampString = post.createdAt.toString(); %>
-              <% const timestampParts = timestampString.split(" "); %>
-              <% const date = timestampParts.slice(0, 4).join(" "); %>
-              <% const time = timestampParts.slice(4, 5).join(":"); %>
-              <%= post.content %>
-              <br /><small>Time:- <%= time %> Date:- <%= date %></small>
-  
-              <% /* Display delete button if the current user is the author */ %>
-              <% if (locals.user && locals.user._id && post.user.id.toString() === locals.user._id.toString()) { %>
-                <small> <a href="/posts/destroy/<%= post.id %>"> DELETE</a></small>
-              <% } %>
-            </p>
-          </div>
-          <br />
-          <div>
-            <div class="post-comments">
-              <% /* Add comment form if condition is met */ %>
-              <% if (5 > 0) { %>
-                <form action="/comments/create" method="post">
-                  <input type="text" name="content" placeholder="Type here to add comments.." required />
-                  <input type="hidden" name="post" value="<%= post._id %>" />
-                  <input type="submit" value="Add comments" />
-                </form>
-              <% } %>
-            </div>
-  
-            <div class="post-comments-list">
-              <ul id="post-comments">
-                <% /* Iterate over comments for the current post */ %>
-                <% for (let comment of post.comments) { %>
-                  <li>
-                    <p><%= comment.content %></p>
-                    <small>commented by: <%= comment.user.name %></small>
-          
-                    <% /* Display delete button for comment if the current user is the author */ %>
-                    <% if (locals.user && comment.user._id.toString() === locals.user._id.toString()) { %>
-                      <small><a href="/comments/destroy/<%= comment.id %>"> DELETE</a></small>
-                    <% } %>
-                  </li>
-                <% } %>
-              </ul>
-            </div>
-          </div>
-          <br />
+      <% /* Display delete button if the current user is the author */ %> <% if
+      (locals.user && locals.user._id && post.user.id.toString() ===
+      locals.user._id.toString()) { %>
+      <small>
+        <a class="delete-post-button" href="/posts/destroy/<%= post.id %>">
+          DELETE</a
+        ></small
+      >
+      <% } %>
+    </p>
+  </div>
+  <br />
+  <div>
+    <div class="post-comments">
+      <% /* Add comment form if condition is met */ %> <% if (5 > 0) { %>
+      <form action="/comments/create" method="post">
+        <input
+          type="text"
+          name="content"
+          placeholder="Type here to add comments.."
+          required
+        />
+        <input type="hidden" name="post" value="<%= post._id %>" />
+        <input type="submit" value="Add comments" />
+      </form>
+      <% } %>
+    </div>
+
+    <div class="post-comments-list">
+      <ul id="post-comments">
+        <% /* Iterate over comments for the current post */ %> <% for (let
+        comment of post.comments) { %>
+        <li>
+          <p><%= comment.content %></p>
+          <small>commented by: <%= comment.user.name %></small>
+
+          <% /* Display delete button for comment if the current user is the
+          author */ %> <% if (locals.user && comment.user._id.toString() ===
+          locals.user._id.toString()) { %>
+          <small
+            ><a href="/comments/destroy/<%= comment.id %>"> DELETE</a></small
+          >
+          <% } %>
         </li>
-        <br />
-      <% } %> <% /* End of post iteration */ %>
-    <% } else { %> <% /* If there are no posts */ %>
-      <p id="no-post"><%= add %></p> <% /* Display a message */ %>
-    <% } %> <% /* End of posts check */ %>
-  </ul>
-  
+        <% } %>
+      </ul>
+    </div>
+  </div>
+  <br />
+</li>
+<br />

@@ -20,22 +20,21 @@
 <h3>YOUR POST</h3>
 <br />
 
-<div>
+<div id="post-list-container">
   <ul>
     <% if (mypost && mypost.length > 0 && locals.user) { %> <!-- Check if there are posts and user is authenticated -->
       <% for(let post of mypost) { %> <!-- Iterate over user's posts -->
-        <li id="post" style="border: 1px solid rgb(86, 82, 82)">
+        <li id="id=post-<%=post._id%>">
           <div class="deatail">
             <!-- Display post details -->
             <p>
               <small>Posted by <%= post.user.name %></small>
-              <% const timestampString = post.createdAt.toString(); 
-                 const timestampParts = timestampString.split(" "); 
-                 const date = timestampParts.slice(0, 4).join(" "); 
-                 const time = timestampParts.slice(4, 5).join(":"); %>
+              <% let createdAt = new Date(post.createdAt);
+              let date = createdAt.toLocaleDateString();
+              let time = createdAt.toLocaleTimeString(); %>
               <br /><%= post.content %><br /><small>Time:-<%= time %> Date:-<%= date %></small>
               <% if(locals.user && locals.user.id == post.user.id) { %> <!-- Display delete button if the current user is the author -->
-                <small> <a href="/posts/destroy/<%= post.id %>"> DELETE</a></small>
+                <small> <a class="delete-post-button" href="/posts/destroy/<%= post.id %>"> DELETE</a></small>
               <% } %>
             </p>
             <br />
@@ -73,3 +72,5 @@
     <% } %>
   </ul>
 </div>
+
+<script src="/js/user_post.js"></script>
