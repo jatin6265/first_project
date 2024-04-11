@@ -1,20 +1,20 @@
-<h1>Codial/<%=title %></h1>
+<link rel="stylesheet" href="/css/home.css">
+<div class="content">
+  <section id="feed-post">
+    <h1>TRENDIG POST'S</h1>
+    <br />
 
-<div>
-  <ul>
-    <% if (posts && posts.length > 0) { %> <%for(let i of posts){%>
-    <li id="post">
-      <div class="deatail">
-        <small><p>Posted by <%=i.user.name%></p></small>
-        <p><%= i.content%></p>
-        <%const timestampString =i.createdAt.toString(); const timestampParts =
-        timestampString.split(" "); const date = timestampParts.slice(0,
-        4).join(" "); const time = timestampParts.slice(4, 5).join(":");%>
-        <small><p>Time:-<%=time%> Date:-<%=date%></p></small>
-      </div>
-    </li>
-    <%}%> <% } else{ %>
-    <p id="no-post"><%= add %></p>
-    <% } %>
-  </ul>
+    <div><%-include('./partials/_post')%></div>
+  </section>
+
+  <section id="user-friends">
+    <%if(locals.user){%>
+
+    <h3>Friends</h3><br>
+    <%for(let u of all_user){%> <%if(locals.user && locals.user.id != u.id){%>
+    <p>
+      <a href="/users/profile/<%=u.id%>"><%=u.name%></a>
+    </p>
+    <%}%> <%}%> <%}%>
+  </section>
 </div>

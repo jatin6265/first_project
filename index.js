@@ -61,6 +61,7 @@ app.use(expressLayouts);
 app.set('layout','./layouts/layout')
 
 
+
 // Routes setup
 app.use("/", require("./routes"));
 

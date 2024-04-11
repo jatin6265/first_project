@@ -7,8 +7,9 @@ const passport = require("../config/passport-local-strategy");
 const usersController = require("../controllers/users_controller");
 const postsController=require('../controllers/posts_controller')
 console.log("users router loaded");
-router.get('/uplod-post',postsController.uploadPost)
-router.get("/profile", passport.checkAuthentication, usersController.profile);
+router.get('/uplod-post',passport.checkAuthentication,postsController.uploadPost)
+router.get("/profile/:id", passport.checkAuthentication, usersController.profile);
+router.post("/update/:id", passport.checkAuthentication, usersController.update);
 router.get("/sign-up", usersController.signUp);
 router.get("/sign-in", usersController.signIn);
 router.post("/create", usersController.create);

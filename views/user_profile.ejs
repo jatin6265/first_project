@@ -1,6 +1,18 @@
+<%if( locals.user && locals.user.id == user_profile.id){%>
+<!-- if user mathces then  show the form -->
+<h1>My Profile</h1><br>
+<p>Name : <%= user_profile.name%></p>
+<p>Email : <%= user_profile.email%></p>
 
+<form action="/users/update/<%=user_profile.id%>" method="post">
+   <input type="text" name="name" placeholder="Your Name" value="<%= user_profile.name%>" required>
+   <input type="text" name="email" placeholder="Your Name" value="<%= user_profile.email%>" required>
+   <input type="submit" value="Update">
+</form>
 
-<h1>Codeial/<%=title%></h1>
-  
-<p>Name : <%= user.name%></p>
-<p>Email : <%= user.email%></p>
+<%}else{%>
+<!-- else show only the profile -->
+<h1><%=user_profile.name+"'s"%> Profile</h1><br>
+<p>Name : <%= user_profile.name%></p>
+<p>Email : <%= user_profile.email%></p>
+<%}%>

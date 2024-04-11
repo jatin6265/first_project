@@ -1,11 +1,13 @@
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  list-style: none;
+  font-family: sans-serif, "Arial"; }
 
 html, body {
   height: 100%;
-  width: 100%; }
+  width: 100vw; }
 
 .wrapper {
   text-align: center;

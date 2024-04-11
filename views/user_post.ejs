@@ -1,5 +1,6 @@
 <section id="feed-post">
-  <h4>Posts</h4>
+  <!-- Form to create a new post -->
+  <h4>MAKE POST</h4>
   <form action="/posts/create" id="new-post-form" method="POST">
     <textarea
       name="content"
@@ -13,53 +14,62 @@
   </form>
 </section>
 
-<!-- <div>
-  <ul>
-<% if (locals.user) { %> 
-    <% if (mypost && mypost.length > 0 && locals.user){ %> 
-     <%for(let i of mypost){%>
-        <li id="post">
-        <div class="deatail">
-        <p>Posted by <%= i.user.name %></p>
-        <p><%= i.content%></p>
-        <p>Time :<%= i.time%> Date :<%=i.date%></p>
-      </div>
-    </li>
-    <%}%> 
-    <% } else{ %>
-        <p id="no-post">You havent Posted Yet</p>
-        <% } %> 
-<% } else{ %>
-<p id="no-post"><%= add %></p>
-<% } %>
-  </ul>
-</div> -->
+<br />
+
+<!-- Display section for user's posts -->
+<h3>YOUR POST</h3>
+<br />
 
 <div>
   <ul>
-<% if (locals.user) { %> 
-    <% if (mypost && mypost.length > 0 && locals.user){ %> 
-     <%for(let i of mypost){%>
-        <li id="post">
-        <div class="deatail">
-          <p><%= i.content%></p>
-         <small><p>Posted by <%= i.user.name  %></p></small>
-        
-
-         <%const timestampString =i.createdAt.toString();
-            const timestampParts = timestampString.split(" ");
-            const date = timestampParts.slice(0, 4).join(" "); 
-            const time = timestampParts.slice(4, 5).join(":");%>
-        <small><p>Time :<%=time%> Date :<%=date%></p></small>
-      </div>
-    </li>
-    <%}%> 
-    <% } else{ %>
-        <p id="no-post">You havent Posted Yet</p>
-        <% } %> 
-<% } else{ %>
-<p id="no-post"><%= add %></p>
-<% } %>
+    <% if (mypost && mypost.length > 0 && locals.user) { %> <!-- Check if there are posts and user is authenticated -->
+      <% for(let post of mypost) { %> <!-- Iterate over user's posts -->
+        <li id="post" style="border: 1px solid rgb(86, 82, 82)">
+          <div class="deatail">
+            <!-- Display post details -->
+            <p>
+              <small>Posted by <%= post.user.name %></small>
+              <% const timestampString = post.createdAt.toString(); 
+                 const timestampParts = timestampString.split(" "); 
+                 const date = timestampParts.slice(0, 4).join(" "); 
+                 const time = timestampParts.slice(4, 5).join(":"); %>
+              <br /><%= post.content %><br /><small>Time:-<%= time %> Date:-<%= date %></small>
+              <% if(locals.user && locals.user.id == post.user.id) { %> <!-- Display delete button if the current user is the author -->
+                <small> <a href="/posts/destroy/<%= post.id %>"> DELETE</a></small>
+              <% } %>
+            </p>
+            <br />
+            <!-- Display comments for the post -->
+            <div class="post-comments-list">
+              <ul id="post-comments">
+                <% for(comment of post.comments) { %> <!-- Iterate over comments for the post -->
+                  <li>
+                    <p><%= comment.content %></p>
+                    <small>commented by:<%= comment.user.name %></small>
+                    <% if (locals.user && comment.user._id.toString() === locals.user._id.toString()) { %> <!-- Display delete button for comment if the current user is the author -->
+                      <small><a href="/comments/destroy/<%= comment.id %>"> DELETE</a></small>
+                    <% } %>
+                  </li>
+                <% } %>
+              </ul>
+            </div>
+            <!-- Form to add comments -->
+            <div class="post-comments">
+              <% if(5 > 0) { %> <!-- Add comment form if condition is met -->
+                <form action="/comments/create" method="post">
+                  <input type="text" name="content" placeholder="Type here to add comments.." required />
+                  <input type="hidden" name="post" value="<%= post._id %>" />
+                  <input type="submit" value="Add comments" />
+                </form>
+              <% } %>
+            </div>
+          </div>
+          <br />
+        </li>
+        <br />
+      <% } %>
+    <% } else { %> <!-- If no posts are found -->
+      <p id="no-post"><%= add %></p>
+    <% } %>
   </ul>
 </div>
-

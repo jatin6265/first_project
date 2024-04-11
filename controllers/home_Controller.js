@@ -1,47 +1,43 @@
 const Post = require("../models/post");
 const User = require("../models/user");
+const Comment = require("../models/comment");
 
+// Controller function to render the home page
 module.exports.home = async function (req, res) {
   try {
-    // const findPosts = await Post.find({});
-    // for (let i = 0; i < findPosts.length; i++) {
-    //   const user = await User.findById(findPosts[i].user);
-    //   const populatedPost = {
-    //     ...findPosts[i], // Spread existing post properties
-    //     user: user ? { name: user.name } : { name: "Unknown" },
-    //   };
-    //   findPosts[i] = populatedPost;
-
-    //   const timestampString =findPosts[i]._doc.createdAt.toString();
-    //   const timestampParts = timestampString.split(" ");
-    //   const date = timestampParts.slice(0, 4).join(" "); // Join the first 3 elements
-    //   const time = timestampParts.slice(4, 5).join(":"); // Join elements from 3rd to 5th with colon separator
-    //   findPosts[i].date=date;
-    //   findPosts[i].time=time;
-
-    // }
-    // // console.log(findPosts);
-    // // Render the view with the populated posts array
-    // return res.render("home", {
-    //   title: "Home",
-    //   posts: findPosts,
-    //   add: "No Posts found.",
-    // });
-
+    // Fetch all posts and populate user and comments fields
     Post.find({})
       .populate("user")
+      .populate({
+        path: "comments",
+        populate: {
+          path: "user",
+        },
+      })
       .exec()
-      .then((post) => {
-        return res.render("home", {
-          title: "Home",
-          posts:post,
-          add: "No Posts found.",
-        });
+      .then(async (posts) => {
+        try {
+          // Fetch all users
+          const allUser = await User.find({});
+          
+          // Render the home page with posts and users
+          return res.render("home", {
+            title: "Home",
+            posts: posts, // Pass the fetched posts to the view
+            all_user: allUser, // Pass all users to the view
+            add: "No Posts found.", // Message to display if no posts are found
+          });
+        } catch (err) {
+          // Handle error in finding users
+          console.error("Error in fetching users:", err);
+        }
       })
       .catch((err) => {
+        // Handle error in finding posts
         console.error("Error in fetching posts:", err);
       });
   } catch (err) {
+    // Handle any other errors
     console.error("Error in fetching posts:", err);
     // Handle error appropriately, e.g., display an error message to the user
   }

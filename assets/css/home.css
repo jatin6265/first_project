@@ -1,0 +1,19 @@
+.content {
+  display: flex; }
+  .content #feed-post {
+    width: 70%; }
+    .content #feed-post .detail p a {
+      text-decoration: none;
+      color: red;
+      padding: 1px;
+      border: 0.5px solid #6b6b6b;
+      border-radius: 3px; }
+  .content #user-friends {
+    width: 30%;
+    text-align: left;
+    padding-left: 20px;
+    border-left: 1px solid black;
+    height: 95vh; }
+    .content #user-friends p a {
+      text-decoration: none;
+      color: black; }
