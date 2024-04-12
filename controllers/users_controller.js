@@ -6,7 +6,7 @@ module.exports.profile = async function (req, res) {
   try {
     // Find user by ID and render their profile
     const user = await User.findById(req.params.id);
-    
+
     return res.render("user_profile", {
       title: "User Profile",
       user_profile: user,
@@ -20,22 +20,38 @@ module.exports.profile = async function (req, res) {
 
 // Controller function to update user profile
 module.exports.update = async function (req, res) {
-  try {
-    // Check if the user ID in request matches the authenticated user's ID
-    if (req.params.id == req.user.id) {
+  // Check if the user ID in request matches the authenticated user's ID
+  if (req.params.id == req.user.id) {
+    try {
       // Update the user profile with the provided data
-      await User.findByIdAndUpdate(req.params.id, req.body);
-      req.flash('success','User info changed successfully')
-      return res.redirect('back');
-    } else {
-      req.flash('success',err)
-      // If user IDs don't match, return unauthorized status
-      return res.status(401).json({ error: "Warning! You are not authorized to update this profile" });
+      //  let user= await User.findByIdAndUpdate(req.params.id,req.body);
+      let user = await User.findById(req.params.id);
+      User.uploadedAvatar(req, res, function (err) {
+        if (err) {
+          console.log("*****Multer error", err);
+        }
+        user.name = req.body.name;
+        user.email = req.body.email;
+        if (req.file) {
+          // this is saving the path of uploaded file into the avatar field
+          user.avatar = User.avatarPath + "/" + req.file.filename;
+        }
+        user.save();
+        console.log(req.file);
+        req.flash("success", "User info changed successfully");
+        return res.redirect("back");
+      });
+    } catch (err) {
+      // Handle errors if any
+      console.error("Error updating user:", err);
+      return res.status(500).json({ error: "Internal Server Error" }); // Generic error for client
     }
-  } catch (err) {
-    // Handle errors if any
-    console.error("Error updating user:", err);
-    return res.status(500).json({ error: "Internal Server Error" }); // Generic error for client
+  } else {
+    req.flash("success", err);
+    // If user IDs don't match, return unauthorized status
+    return res.status(401).json({
+      error: "Warning! You are not authorized to update this profile",
+    });
   }
 };
 
@@ -68,7 +84,7 @@ module.exports.create = async function (req, res) {
   // Password confirmation check
   if (req.body.password !== req.body.confirm_password) {
     console.log("Passwords do not match");
-    req.flash('error','Confirm Password does not match')
+    req.flash("error", "Confirm Password does not match");
     return res.redirect("back"); // Use JSON response for potential API or SPA
   }
 
@@ -77,7 +93,7 @@ module.exports.create = async function (req, res) {
     const existingUser = await User.findOne({ email: req.body.email });
     if (existingUser) {
       console.log("Email already exists");
-      req.flash('error','Email already exists')
+      req.flash("error", "Email already exists");
       return res.redirect("back"); // Use appropriate status code for conflict
     }
   } catch (err) {
@@ -90,7 +106,7 @@ module.exports.create = async function (req, res) {
   try {
     const newUser = await User.create(req.body);
     console.log("User created successfully");
-    req.flash('success','Account created successfully')
+    req.flash("success", "Account created successfully");
     return res.redirect("/users/sign-in"); // Informative response
   } catch (err) {
     // Handle errors if any
@@ -101,20 +117,20 @@ module.exports.create = async function (req, res) {
 
 // Controller function to create session upon sign in
 module.exports.createSession = function (req, res) {
-  req.flash('success',"logged in successfully")
+  req.flash("success", "logged in successfully");
   return res.redirect("/");
 };
 
 // Controller function to destroy session upon logout
 module.exports.destroySession = function (req, res) {
-  // Logout the user 
+  // Logout the user
   req.logout(function (err) {
     if (err) {
       console.log("Error in logging out:", err);
       return;
     }
     // Redirect to home page after logout
-    req.flash('success',"Logged out successfully")
+    req.flash("success", "Logged out successfully");
     return res.redirect("/");
   });
 };

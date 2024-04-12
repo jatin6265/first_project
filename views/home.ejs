@@ -6,28 +6,23 @@
 
     <div id="post-list-container">
       <ul>
-        <% if (posts && posts.length > 0) { %> 
-          <% for(let post of posts) { %> 
-            <%- include('./partials/_post', {post: post}); %> 
-          <% } %> 
-        <% } else { %> 
-          <p id="no-post"><%= add %></p>
-        <% } %> 
+        <% if (posts && posts.length > 0) { %> <% for(let post of posts) { %>
+        <%- include('./partials/_post', {post: post}); %> <% } %> <% } else { %>
+        <p id="no-post"><%= add %></p>
+        <% } %>
       </ul>
     </div>
   </section>
 
   <section id="user-friends">
     <% if(locals.user) { %>
-      <h3>Friends</h3>
-      <br />
-      <% for(let u of all_user) { %> 
-        <% if(locals.user && locals.user.id != u.id) { %>
-          <p>
-            <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
-          </p>
-        <% } %> 
-      <% } %> 
-    <% } %>
+    <h3>Friends</h3>
+    <br />
+    <% for(let u of all_user) { %> <% if(locals.user && locals.user.id != u.id)
+    { %>
+    <p>
+      <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
+    </p>
+    <% } %> <% } %> <% } %>
   </section>
 </div>

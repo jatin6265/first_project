@@ -20,55 +20,77 @@
 <h3>YOUR POST</h3>
 <br />
 
-<div id="post-list-container">
+<div class="post-list-container" id="post-list-container">
   <ul>
-    <% if (mypost && mypost.length > 0 && locals.user) { %> <!-- Check if there are posts and user is authenticated -->
-      <% for(let post of mypost) { %> <!-- Iterate over user's posts -->
-        <li id="id=post-<%=post._id%>">
-          <div class="deatail">
-            <!-- Display post details -->
-            <p>
-              <small>Posted by <%= post.user.name %></small>
-              <% let createdAt = new Date(post.createdAt);
-              let date = createdAt.toLocaleDateString();
-              let time = createdAt.toLocaleTimeString(); %>
-              <br /><%= post.content %><br /><small>Time:-<%= time %> Date:-<%= date %></small>
-              <% if(locals.user && locals.user.id == post.user.id) { %> <!-- Display delete button if the current user is the author -->
-                <small> <a class="delete-post-button" href="/posts/destroy/<%= post.id %>"> DELETE</a></small>
-              <% } %>
-            </p>
-            <br />
-            <!-- Display comments for the post -->
-            <div class="post-comments-list">
-              <ul id="post-comments">
-                <% for(comment of post.comments) { %> <!-- Iterate over comments for the post -->
-                  <li>
-                    <p><%= comment.content %></p>
-                    <small>commented by:<%= comment.user.name %></small>
-                    <% if (locals.user && comment.user._id.toString() === locals.user._id.toString()) { %> <!-- Display delete button for comment if the current user is the author -->
-                      <small><a href="/comments/destroy/<%= comment.id %>"> DELETE</a></small>
-                    <% } %>
-                  </li>
-                <% } %>
-              </ul>
-            </div>
-            <!-- Form to add comments -->
-            <div class="post-comments">
-              <% if(5 > 0) { %> <!-- Add comment form if condition is met -->
-                <form action="/comments/create" method="post">
-                  <input type="text" name="content" placeholder="Type here to add comments.." required />
-                  <input type="hidden" name="post" value="<%= post._id %>" />
-                  <input type="submit" value="Add comments" />
-                </form>
-              <% } %>
-            </div>
-          </div>
-          <br />
-        </li>
+    <% if (mypost && mypost.length > 0 && locals.user) { %>
+    <!-- Check if there are posts and user is authenticated -->
+    <% for(let post of mypost) { %>
+    <!-- Iterate over user's posts -->
+    <li id="post-<%=post._id%>">
+      <div class="deatail">
+        <!-- Display post details -->
+        <p>
+          <small>Posted by <%= post.user.name %></small>
+          <% let createdAt = new Date(post.createdAt); let date =
+          createdAt.toLocaleDateString(); let time =
+          createdAt.toLocaleTimeString(); %>
+          <br /><%= post.content %><br /><small
+            >Time:-<%= time %> Date:-<%= date %></small
+          >
+          <% if(locals.user && locals.user.id == post.user.id) { %>
+          <!-- Display delete button if the current user is the author -->
+          <small>
+            <a class="delete-post-button" href="/posts/destroy/<%= post.id %>">
+              DELETE</a
+            ></small
+          >
+          <% } %>
+        </p>
         <br />
-      <% } %>
-    <% } else { %> <!-- If no posts are found -->
-      <p id="no-post"><%= add %></p>
+        <!-- Display comments for the post -->
+        <div class="post-comments-list">
+          <ul id="post-comments">
+            <% for(comment of post.comments) { %>
+            <!-- Iterate over comments for the post -->
+            <li>
+              <p><%= comment.content %></p>
+              <small>commented by:<%= comment.user.name %></small>
+              <% if (locals.user && comment.user._id.toString() ===
+              locals.user._id.toString()) { %>
+              <!-- Display delete button for comment if the current user is the author -->
+              <small
+                ><a href="/comments/destroy/<%= comment.id %>">
+                  DELETE</a
+                ></small
+              >
+              <% } %>
+            </li>
+            <% } %>
+          </ul>
+        </div>
+        <!-- Form to add comments -->
+        <div class="post-comments">
+          <% if(5 > 0) { %>
+          <!-- Add comment form if condition is met -->
+          <form action="/comments/create" method="post">
+            <input
+              type="text"
+              name="content"
+              placeholder="Type here to add comments.."
+              required
+            />
+            <input type="hidden" name="post" value="<%= post._id %>" />
+            <input type="submit" value="Add comments" />
+          </form>
+          <% } %>
+        </div>
+      </div>
+      <br />
+    </li>
+    <br />
+    <% } %> <% } else { %>
+    <!-- If no posts are found -->
+    <p id="no-post"><%= add %></p>
     <% } %>
   </ul>
 </div>

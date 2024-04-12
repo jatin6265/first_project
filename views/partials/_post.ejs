@@ -2,10 +2,9 @@
   <div class="detail">
     <p>
       <small>Posted by <%= post.user.name %></small><br />
-      <% let createdAt = new Date(post.createdAt);
-      let date = createdAt.toLocaleDateString();
-      let time = createdAt.toLocaleTimeString(); %>
-      <%= post.content %>
+      <% let createdAt = new Date(post.createdAt); let date =
+      createdAt.toLocaleDateString(); let time = createdAt.toLocaleTimeString();
+      %> <%= post.content %>
       <br /><small>Time:- <%= time %> Date:- <%= date %></small>
 
       <% /* Display delete button if the current user is the author */ %> <% if
